@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="true_button_text">TRUE</string>
+    <string name="false_button_text">FALSE</string>
+    <string name="prev_button_text">PREV</string>
+    <string name="next_button_text">NEXT</string>
+    <string name="image_content_description">Android robot image</string>
+    <string name="wrong_answer">The answer is wrong!</string>
+    <string name="correct_answer">The answer is correct!</string>
+    <string name="capital_netherlands">The capital of the Netherlands is Amsterdam</string>
+    <string name="capital_belgium">The capital of Belgium is Brussels</string>
+    <string name="capital_germany">The capital of Germany is Frankfurt</string>
+    <string name="capital_spain">The capital of Spain is Barcelona</string>
+    <string name="capital_usa">The capital of the USA is Miami</string>
+    <string name="capital_estonia">The capital of Estonia is Tallinn</string>
+</resources>
