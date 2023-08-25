@@ -1,57 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E53935"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+    <data>
+        <variable
+            name="bio"
+            type="com.example.bioapp.data.Bio"
+        />
+    </data>
 
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/nameStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/name" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        style="@style/generalStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hobby_hint_text"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_done_text" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/layout_margin">
+        android:background="#E53935"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/image_description"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView2"
+            style="@style/nameStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{bio.name}"
+            android:textColor="#3E2723" />
+
+        <EditText
+            android:id="@+id/enterHobbies"
             style="@style/generalStyle"
-            android:text="@string/my_bio" />
-    </ScrollView>
-</LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hobby_hint_text"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textColorHint="#000000"
+            android:autofillHints="@string/auto_fill_hints" />
+
+        <Button
+            android:id="@+id/doneButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addHobbies"
+            android:text="@string/button_done_text" />
+
+        <TextView
+            android:id="@+id/hobbiesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{bio.hobbies}"
+            android:visibility="invisible" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/layout_margin">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/generalStyle"
+                android:text="@string/my_bio"
+                android:textColor="#000000" />
+        </ScrollView>
+    </LinearLayout>
+</layout>
