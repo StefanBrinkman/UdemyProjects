@@ -6,4 +6,9 @@
     <string name="falseButton">False</string>
     <string name="nextButton">Next</string>
     <string name="questionText_placeholder">Placeholder for the actual question text</string>
+    <string name="questionCountText">Question: %d/%d</string>
+    <string name="correct_answer">Correct!</string>
+    <string name="incorrect_answer">Incorrect!</string>
+    <string name="highestScoreUser">Highest:</string>
+    <string name="currentScore">Score:</string>
 </resources>

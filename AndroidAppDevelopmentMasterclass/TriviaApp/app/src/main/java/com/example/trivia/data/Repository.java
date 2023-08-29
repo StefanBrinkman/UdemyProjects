@@ -19,7 +19,7 @@ public class Repository {
     public List<Question> getQuestions(final AnswerListAsyncResponse callback) {
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
                 Request.Method.GET, URL, null, response -> {
-            for (int i = 0; i < response.length(); i++) {
+            for (int i = 0; i < 10; i++) {
                 try {
                     Question currentQuestion = new Question(
                             response.getJSONArray(i).get(0).toString(),
