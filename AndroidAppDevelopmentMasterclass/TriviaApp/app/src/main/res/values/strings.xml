@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Trivia</string>
+    <string name="titleText">Trivia</string>
+    <string name="outOfText">Question: 45/89</string>
+    <string name="trueButton">True</string>
+    <string name="falseButton">False</string>
+    <string name="nextButton">Next</string>
+    <string name="questionText_placeholder">Placeholder for the actual question text</string>
+</resources>
