@@ -24,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
         showTitle = findViewById(R.id.titleText);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

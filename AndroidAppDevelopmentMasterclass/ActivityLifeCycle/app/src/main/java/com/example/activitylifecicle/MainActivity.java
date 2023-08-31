@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         String message = data.getStringExtra("guess");
         System.out.println("MESSAGE BACK: " + message);
-        Toast.makeText(MainActivity.this, message,Toast.LENGTH_LONG).show();
+        Toast.makeText(
+        MainActivity.this,
+               message,Toast.LENGTH_LONG
+        ).show();
     }
 }
