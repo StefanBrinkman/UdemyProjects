@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">ContactManager</string>
     <string name="db_drop_contact">DROP TABLE IF EXISTS</string>
+    <string name="name_hint">Enter name</string>
+    <string name="occupation_hint">Occupation</string>
+    <string name="save_button_text">Save</string>
+    <string name="new_contact">Add a new contact</string>
+    <string name="enter_information">Enter information</string>
+    <string name="floating_button_description">FloatingButton</string>
 </resources>

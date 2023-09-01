@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.contactmanager.R;
 import com.example.contactmanager.model.Contact;
+import com.example.contactmanager.model.Contact2;
 import com.example.contactmanager.util.Util;
 
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String DROP_TABLE = String.valueOf(R.string.db_drop_contact);
         // Deleting the old contact table
-        db.execSQL(DROP_TABLE, new String[]{Util.DATABASE_NAME});
+        db.execSQL(DROP_TABLE, new String[]{
+                Util.DATABASE_NAME
+        });
 
         // Calling onCreate to create a updated contact table in the database
         onCreate(db);
@@ -79,8 +82,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return contact;
     }
 
-    public List<Contact> getAllContacts() {
-        List<Contact> contactsList = new ArrayList<>();
+    public List<Contact2> getAllContacts() {
+        List<Contact2> contactsList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectAll = "SELECT * FROM " + Util.TABLE_NAME;
@@ -88,10 +91,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         if(cursor != null && cursor.moveToFirst()) {
             do {
-                Contact contact = new Contact();
+                Contact2 contact = new Contact2(cursor.getString(1), cursor.getString(2));
                 contact.setId(Integer.parseInt(cursor.getString(0)));
                 contact.setName(cursor.getString(1));
-                contact.setPhoneNumber(cursor.getString(2));
+                contact.setOccupation(cursor.getString(2));
 
                 contactsList.add(contact);
             } while(cursor.moveToNext());
