@@ -6,8 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.example.contactmanager.R;
 import com.example.contactmanager.model.Contact;
 import com.example.contactmanager.model.Contact2;
@@ -23,30 +21,24 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Creating SQL query/table
         String CREATE_CONTACT_TABLE = "CREATE TABLE " + Util.TABLE_NAME
                 + "(" + Util.KEY_ID + " INTEGER PRIMARY KEY,"
                 + Util.KEY_NAME + " TEXT,"
                 + Util.KEY_PHONE_NUMBER + " TEXT" + ")";
 
-        // Execute SQL query
         db.execSQL(CREATE_CONTACT_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String DROP_TABLE = String.valueOf(R.string.db_drop_contact);
-        // Deleting the old contact table
         db.execSQL(DROP_TABLE, new String[]{
                 Util.DATABASE_NAME
         });
 
-        // Calling onCreate to create a updated contact table in the database
         onCreate(db);
     }
 
-
-    // CRUD actions for contact table
     public void createContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -54,7 +46,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(Util.KEY_NAME, contact.getName());
         values.put(Util.KEY_PHONE_NUMBER, contact.getPhoneNumber());
 
-        // Insert new contact
         db.insert(Util.TABLE_NAME, null, values);
         Log.d("DBHandler", "createContact: " + values);
         db.close();
@@ -109,7 +100,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(Util.KEY_NAME, contact.getName());
         values.put(Util.KEY_PHONE_NUMBER, contact.getPhoneNumber());
 
-        // update row with new values
         return db.update(
                 Util.TABLE_NAME,
                 values,

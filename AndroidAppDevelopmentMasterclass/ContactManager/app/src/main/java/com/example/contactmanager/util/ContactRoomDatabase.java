@@ -1,7 +1,6 @@
 package com.example.contactmanager.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;

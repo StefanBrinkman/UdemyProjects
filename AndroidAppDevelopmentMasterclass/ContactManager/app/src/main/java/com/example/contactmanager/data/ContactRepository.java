@@ -1,6 +1,7 @@
 package com.example.contactmanager.data;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import com.example.contactmanager.model.Contact2;
