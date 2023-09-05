@@ -2,6 +2,7 @@ package com.bawp.todoister;
 
 import android.os.Bundle;
 
+import com.bawp.todoister.data.OnTodoClickListener;
 import com.bawp.todoister.data.RecyclerViewAdapter;
 import com.bawp.todoister.model.Priority;
 import com.bawp.todoister.model.Task;
@@ -27,7 +28,7 @@ import android.view.MenuItem;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         ).create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(this, tasks -> {
-            recyclerViewAdapter = new RecyclerViewAdapter(tasks);
+            recyclerViewAdapter = new RecyclerViewAdapter(tasks, this::onTodoClick);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -85,5 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showBottomSheetDialog() {
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    @Override
+    public void onTodoClick(int adapterPosition, Task task) {
+        Log.d("Click", "onTodoClick: " + adapterPosition);
     }
 }
