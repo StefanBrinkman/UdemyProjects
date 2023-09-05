@@ -1,17 +1,21 @@
 package com.bawp.todoister.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.bawp.todoister.data.TaskDao;
 import com.bawp.todoister.model.Task;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,6 +24,7 @@ import java.util.concurrent.Executors;
         version = 1,
         exportSchema = false
 )
+@TypeConverters({ Converter.class })
 public abstract class TaskRoomDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "todoister_database";
     public static final int NUMBER_OF_THREADS = 4;
@@ -32,9 +37,6 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             super.onCreate(db);
             databaseWriterExecutor.execute(() -> {
                 TaskDao taskDao = INSTANCE.taskDao();
-                // Delete existing table
-                taskDao.deleteAll();
-
             });
         }
     };
@@ -43,7 +45,11 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
         if(INSTANCE == null) {
             synchronized (TaskRoomDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskRoomDatabase.class, DATABASE_NAME).addCallback().build();
+                    INSTANCE = Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            TaskRoomDatabase.class,
+                            DATABASE_NAME)
+                            .addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
