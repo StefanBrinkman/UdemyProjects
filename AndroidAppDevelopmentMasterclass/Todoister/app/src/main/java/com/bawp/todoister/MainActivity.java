@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.bawp.todoister.data.OnTodoClickListener;
 import com.bawp.todoister.data.RecyclerViewAdapter;
 import com.bawp.todoister.model.Priority;
+import com.bawp.todoister.model.SharedViewModel;
 import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     BottomSheetFragment bottomSheetFragment;
+    private SharedViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         ConstraintLayout constraintLayout = findViewById(R.id.bottomSheet);
         BottomSheetBehavior<ConstraintLayout> bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.STATE_HIDDEN);
+
         // setup recycler view
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -55,14 +58,15 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         ).create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(this, tasks -> {
-            recyclerViewAdapter = new RecyclerViewAdapter(tasks, this::onTodoClick);
+            recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
+        sharedViewModel = new ViewModelProvider(this)
+                .get(SharedViewModel.class);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-//            Task task = new Task("Task 1", Priority.LOW, Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), false);
-//            TaskViewModel.insert(task);
             showBottomSheetDialog();
         });
     }
@@ -89,7 +93,15 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     }
 
     @Override
-    public void onTodoClick(int adapterPosition, Task task) {
-        Log.d("Click", "onTodoClick: " + adapterPosition);
+    public void onTodoClick(Task task) {
+        sharedViewModel.selectItem(task);
+        sharedViewModel.setIsEditing(true);
+        showBottomSheetDialog();
+    }
+
+    @Override
+    public void onTodoRadioButtonClick(Task task) {
+        TaskViewModel.deleteTask(task);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 }

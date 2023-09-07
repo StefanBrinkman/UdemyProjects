@@ -1,5 +1,7 @@
 package com.bawp.todoister.data;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +44,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Task task = taskList.get(position);
         String formatted = Utils.formatDate(task.getDueDate());
 
+        ColorStateList colorStateList = new ColorStateList(new int[][] {
+                new int[] {-android.R.attr.state_enabled},
+                new int[] {android.R.attr.state_enabled}
+        },
+                new int[]{
+                        Color.LTGRAY,
+                        Utils.priorityColor(task)
+                });
+
         holder.todo.setText(task.getTask());
         holder.todayChip.setText(formatted);
+
+        holder.todayChip.setTextColor(Utils.priorityColor(task));
+        holder.todayChip.setChipIconTint(colorStateList);
+        holder.radioButton.setButtonTintList(colorStateList);
     }
 
     @Override
@@ -65,14 +80,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             this.onTodoClickListener = todoClickListener;
             itemView.setOnClickListener(this);
+            radioButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            Task currentTask = taskList.get(getAdapterPosition());
             int id = view.getId();
             if(id == R.id.todo_row_layout) {
-                Task currentTask = taskList.get(getAdapterPosition());
-                onTodoClickListener.onTodoClick(getAdapterPosition(), currentTask);
+                onTodoClickListener.onTodoClick(currentTask);
+            } else if (id == R.id.todo_radio_button) {
+                onTodoClickListener.onTodoRadioButtonClick(currentTask);
             }
         }
     }
