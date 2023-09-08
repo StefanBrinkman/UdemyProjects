@@ -1,5 +1,6 @@
 package com.example.mediaplayer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
@@ -8,6 +9,8 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -15,98 +18,71 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback{
+    private SurfaceView surfaceView;
+    private MediaPlayer mediaPlayer;
 
-    private Button buttonOne, buttonTwo, buttonThree, buttonFour;
-
-    private String soundEffect1 = String.valueOf(Uri.parse("http://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a"));
-    private String soundEffect2 = "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3";
-    private String soundEffect3 = "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/spring.mp3";
-    private String soundEffect4 = "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3";
-    private int sound1, sound2, sound3, sound4;
-
-    private boolean soundLoaded = false;
-
-    private SoundPool soundPool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonOne = findViewById(R.id.buttonOne);
-        buttonTwo = findViewById(R.id.buttonTwo);
-        buttonThree = findViewById(R.id.buttonThree);
-        buttonFour = findViewById(R.id.buttonFour);
+        mediaPlayer = MediaPlayer.create(this, R.raw.musicToAdd);
+        surfaceView = findViewById(R.id.surfaceView);
+        surfaceView.setKeepScreenOn(true);
 
-        buttonOne.setOnClickListener(this);
-        buttonTwo.setOnClickListener(this);
-        buttonThree.setOnClickListener(this);
-        buttonFour.setOnClickListener(this);
+        SurfaceHolder holder = surfaceView.getHolder();
+        holder.addCallback(this);
+        holder.setFixedSize(400,300);
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                .build();
-
-        soundPool = new SoundPool.Builder()
-                .setMaxStreams(4)
-                .setAudioAttributes(audioAttributes)
-                .build();
-
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+        Button playButton = findViewById(R.id.buttonPlay);
+        playButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                Log.d("soundPool", "onLoadComplete: ");
-                soundLoaded = true;
+            public void onClick(View v) {
+                mediaPlayer.start();
             }
         });
-        try {
-            sound1 = soundPool.l
-            Log.d("Sound 1", "onCreate: " + sound1);
-        } catch (Exception error) {
-            Log.d("LOADING ERROR", "onLoad: " + error);
-        }
-//        sound2 = soundPool.load(soundEffect2, 1);
-//        sound3 = soundPool.load(soundEffect3, 1);
-//        sound4 = soundPool.load(soundEffect4, 1);
+
+        Button pauseButton = findViewById(R.id.buttonPause);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.pause();
+            }
+        });
+
+        Button skipButton = findViewById(R.id.buttonSkip);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.seekTo(mediaPlayer.getDuration() / 2);
+            }
+        });
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonOne:
-                    if(soundLoaded) {
-                        soundPool.play(sound1,1,1,0,1,1);
-                    }
-                break;
-
-            case R.id.buttonTwo:
-                if(soundLoaded) {
-                    soundPool.play(sound2,1,1,0,1,1);
-                }
-
-                break;
-
-            case R.id.buttonThree:
-                if(soundLoaded) {
-                    soundPool.play(sound3,1,1,0,1,1);
-                }
-                break;
-
-            case R.id.buttonFour:
-                if(soundLoaded) {
-                    soundPool.play(sound4,1,1,0,1,1);
-                }
-                break;
-        }
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        mediaPlayer.setDisplay(holder);
+        mediaPlayer.start();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(soundPool != null) {
-            soundPool.release();
-            soundPool = null;
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mediaPlayer != null) {
+            mediaPlayer.pause();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }
