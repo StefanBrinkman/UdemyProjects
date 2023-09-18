@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import com.example.fragmenttestapp2.util.ScreenUtility;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,5 +22,6 @@ public class MainActivity extends AppCompatActivity {
             fragment = new MainFragment();
             fragmentManager.beginTransaction().add(R.id.myContainer, fragment).commit();
         }
+        new ScreenUtility(this);
     }
 }
