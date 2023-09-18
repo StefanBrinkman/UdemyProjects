@@ -21,14 +21,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickListener {
     private ListView listView;
     private ArrayList<String> contactArrayList;
     private ArrayAdapter<String> arrayAdapter;
     private ContactViewModel contactViewModel;
     private FloatingActionButton fabNewContact;
-
+    public static final String contact_id = "contact_id";
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
 
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         fabNewContact = findViewById(R.id.floatingAddContactButton);
         contactArrayList = new ArrayList<>();
-        DatabaseHandler db = new DatabaseHandler(MainActivity.this);
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication()).create(ContactViewModel.class);
 
         arrayAdapter = new ArrayAdapter<>(
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             // Set up adapter
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerViewAdapter = new RecyclerViewAdapter(contacts, MainActivity.this);
+            recyclerViewAdapter = new RecyclerViewAdapter(contacts, MainActivity.this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -63,5 +63,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, NewContact.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    public void onContactClick(int position) {
+        Intent intent = new Intent(MainActivity.this, NewContact.class);
+        Contact2 contact = Objects.requireNonNull(contactViewModel.allContacts.getValue().get(position));
+        intent.putExtra(contact_id, contact.getId());
+        startActivity(intent);
     }
 }

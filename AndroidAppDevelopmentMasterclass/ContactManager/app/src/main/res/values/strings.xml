@@ -7,4 +7,6 @@
     <string name="new_contact">Add a new contact</string>
     <string name="enter_information">Enter information</string>
     <string name="floating_button_description">FloatingButton</string>
+    <string name="updateText">Update</string>
+    <string name="deleteText">Delete</string>
 </resources>

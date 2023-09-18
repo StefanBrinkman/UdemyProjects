@@ -29,4 +29,16 @@ public class ContactRepository {
             contactDao.insert(contact);
         });
     }
+
+    public LiveData<Contact2> get(int id) {
+        return contactDao.get(id);
+    }
+
+    public void update(Contact2 contact) {
+        ContactRoomDatabase.databaseWriteExecutor.execute(() -> contactDao.update(contact));
+    }
+
+    public void delete(Contact2 contact) {
+        ContactRoomDatabase.databaseWriteExecutor.execute(() -> contactDao.delete(contact));
+    }
 }

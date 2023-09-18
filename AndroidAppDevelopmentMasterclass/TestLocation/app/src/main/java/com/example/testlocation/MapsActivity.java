@@ -11,15 +11,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-// TO DO => API 28 emulator + Google Services enabled
-// Get current location from the user
-// Add error handling for when maps wasn't able to load and when permisson wasn't given
-// Location permission denied, ask again.
-// Ask user if app may use location
-// fine location, coarse location
-// Get location of user on startup if permissionis granted
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+/*
+    TO DO => API 28 emulator + Google Services enabled
+    Get current location from the user.
+    Add error handling for when maps wasn't able to load and when permisson wasn't given.
+    Location permission denied, ask again.
+    Ask user if app may use location. (fine location, coarse location)
+    Get location of user on startup if permission is granted.
 
+    https://romannurik.github.io/AndroidAssetStudio/ => Icon launcher => You can generate custom launch icon for the app.
+ */
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     @Override
@@ -32,7 +35,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -43,8 +45,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
 
         mMap.addMarker(
-                new MarkerOptions().position(sydney).title("Marker in Sydney")
+                new MarkerOptions()
+                        .position(sydney)
+                        .title("Marker in Sydney")
         );
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
